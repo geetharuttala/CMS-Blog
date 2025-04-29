@@ -1,0 +1,9 @@
+```bash
+# Ignore environment variables
+.env
+
+# Ignore node_modules folder
+node_modules/
+
+# Ignore log files
+*.log

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to CMS Blog</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        /* Modern Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #1a2639 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            border-radius: 0;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 1;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            color: white;
+            border-bottom: none;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .cta-buttons .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .cta-buttons .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+        
+        .cta-buttons .btn:hover::before {
+            left: 0;
+        }
+        
+        .cta-buttons .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Section Headers */
+        h2.section-title {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        h2.section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+        
+        /* Horizontal Featured Cards */
+        .featured-articles {
+            margin-bottom: 5rem;
+        }
+        
+        .horizontal-card-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .horizontal-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: row;
+            height: 240px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .horizontal-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .horizontal-card-image {
+            width: 40%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .horizontal-card-content {
+            width: 60%;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .horizontal-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        .horizontal-card-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+        }
+        
+        .horizontal-card-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .read-more-arrow {
+            margin-top: auto;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .read-more-arrow::after {
+            content: '→';
+            display: inline-block;
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .horizontal-card:hover .read-more-arrow::after {
+            transform: translateX(5px);
+        }
+        
+        /* View All Button */
+        .view-all-container {
+            text-align: center;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .view-all-btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .view-all-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            background-color: var(--secondary-color);
+        }
+        
+
+        /* Features Section */
+        .features-section {
+            padding: 4rem 0;
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+            margin-bottom: 4rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+        
+        .feature {
+            background-color: white;
+            padding: 2.5rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+            text-align: center;
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+        
+        .feature:hover {
+            transform: translateY(-10px);
+            border-bottom: 4px solid var(--primary-color);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 50%;
+            color: var(--primary-color);
+        }
+        
+        .feature-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .feature h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .feature p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Responsive Design */        
+        @media (max-width: 992px) {
+            .features {
+                grid-template-columns: repeat(3, 1fr); /* Keep 3 columns on medium screens */
+            }
+            
+            .horizontal-card {
+                height: auto;
+                flex-direction: column;
+            }
+            
+            .horizontal-card-image {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .horizontal-card-content {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 4rem 1.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.8s ease forwards;
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 0.8s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">CMS Blog</a>
+            <ul class="nav-links">
+                <li><a href="/" class="<%= (currentPage === 'home') ? 'active' : '' %>">Home</a></li>
+                <li><a href="/blog" class="<%= (currentPage === 'blog') ? 'active' : '' %>">Blog</a></li>
+                <li><a href="/add-article" class="<%= (currentPage === 'add-article') ? 'active' : '' %>">Add Article</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="animate__animated animate__fadeIn">Welcome to CMS Blog</h1>
+            <p class="animate__animated animate__fadeIn animate__delay-1s">A modern content management system for creating and sharing your articles, stories, and ideas with the world.</p>
+            <div class="cta-buttons animate__animated animate__fadeIn animate__delay-1s">
+                <a href="/blog" class="btn">Explore Articles</a>
+                <a href="/add-article" class="btn btn-secondary">Start Writing</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Featured Articles Section -->
+        <section class="featured-articles">
+            <h2 class="section-title slide-up">Featured Articles</h2>
+            
+            <% 
+            // Filter only featured articles
+            const filteredFeaturedArticles = featuredArticles ? featuredArticles.filter(article => article.isFeatured) : [];
+            %>
+            
+            <% if (filteredFeaturedArticles && filteredFeaturedArticles.length > 0) { %>
+                <div class="horizontal-card-container">
+                    <% filteredFeaturedArticles.forEach((article, index) => { %>
+                        <div class="horizontal-card slide-up" data-delay="<%= 0.2 * index %>" data-article-id="<%= article.id %>">
+                            <img src="<%= article.image %>" alt="<%= article.title %>" class="horizontal-card-image" />
+                            <div class="horizontal-card-content">
+                                <h3><%= article.title %></h3>
+                                <div class="horizontal-card-meta">
+                                    <span><strong>By:</strong> <%= article.author %></span>
+                                    <span><strong>Date:</strong> <%= formatDate(article.date) %></span>                                </div>
+                                <div class="horizontal-card-description">
+                                    <% if (article.content) { %>
+                                        <%= article.content.length > 150 ? article.content.substring(0, 150) + '...' : article.content %>
+                                    <% } %>
+                                </div>
+                                <span class="read-more-arrow">Read Article</span>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+                
+                <!-- View All Articles Button -->
+                <div class="view-all-container slide-up">
+                    <a href="/blog" class="view-all-btn">View All Articles</a>
+                </div>
+                
+            <% } else { %>
+                <div style="text-align: center; margin: 3rem 0;" class="slide-up">
+                    <p>No featured articles yet. Start by creating your first article!</p>
+                    <a href="/add-article" class="btn">Create Article</a>
+                </div>
+            <% } %>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section slide-up">
+            <h2 class="section-title">Why Choose CMS Blog</h2>
+            <div class="features">
+                <div class="feature slide-in-right" style="animation-delay: 0.1s;">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                    </div>
+                    <h3>Easy Content Creation</h3>
+                    <p>Create beautiful articles with our simple and intuitive article editor designed for writers of all skill levels.</p>
+                </div>
+                <div class="feature slide-in-right" style="animation-delay: 0.3s;">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                        </svg>
+                    </div>
+                    <h3>Responsive Design</h3>
+                    <p>Articles look stunning on all devices, from desktops and laptops to tablets and smartphones.</p>
+                </div>
+                <div class="feature slide-in-right" style="animation-delay: 0.5s;">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </div>
+                    <h3>Social Sharing</h3>
+                    <p>Easily share your articles across all major social media platforms with integrated sharing tools.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; <%= new Date().getFullYear() %> CMS Blog. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        // Animate sections when they come into view
+        document.querySelectorAll('.slide-up, .slide-in-right').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = el.classList.contains('slide-up') ? 'translateY(30px)' : 'translateX(30px)';
+            observer.observe(el);
+        });
+        
+        // Make horizontal cards clickable
+        document.querySelectorAll('.horizontal-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                const articleId = this.getAttribute('data-article-id');
+                window.location.href = `/article/${articleId}`;
+            });
+        });
+
+        document.querySelectorAll('.horizontal-card').forEach(card => {
+            const delay = card.getAttribute('data-delay');
+            if (delay) {
+                card.style.animationDelay = delay + 's';
+            }
+        });
+    </script>
+</body>
+</html>

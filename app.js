@@ -68,13 +68,13 @@ app.get('/', async (req, res) => {
         
         res.render('index', {
             currentPage: 'home',
-            featuredArticles: articlesToShow
+            articles: articlesToShow  // Changed from featuredArticles to articles to match index.ejs
         });
     } catch (err) {
         console.error(err);
         res.render('index', {
             currentPage: 'home',
-            featuredArticles: []
+            articles: []  // Changed from featuredArticles to articles
         });
     }
 });
@@ -89,28 +89,34 @@ app.get('/blog', async (req, res) => {
     }
 });
 
-app.get('/add-article', (req, res) => {
+app.get('/articles/new', (req, res) => {  // Changed from /add-article to match your navbar link
     res.render('form', { currentPage: 'add-article' });
 });
 
 app.post('/submit-article', upload.single('image'), async (req, res) => {
     try {
-        const { title, content, author, date } = req.body;
+        const { title, content, author } = req.body;
         const imagePath = req.file ? `/images/${req.file.filename}` : '';
         
         // Add this line to get the featured checkbox value
         const isFeatured = req.body.isFeatured === 'on';
+        
+        // Create the current date
+        const currentDate = new Date();
 
         const newArticle = new Article({
             title,
             content,
             image: imagePath,
             author,
-            date,
-            isFeatured // Add this property
+            date: currentDate,
+            isFeatured,
+            createdAt: currentDate,
+            updatedAt: currentDate
         });
 
         await newArticle.save();
+        console.log('Article saved:', newArticle); // For debugging
         res.redirect('/blog');
     } catch (err) {
         console.error('❌ Error saving article:', err);
@@ -118,11 +124,15 @@ app.post('/submit-article', upload.single('image'), async (req, res) => {
     }
 });
 
-app.get('/article/:id', async (req, res) => {
+app.get('/articles/:id', async (req, res) => {  // Changed from /article/:id to match your article links
     try {
         const article = await Article.findById(req.params.id);
         if (article) {
-            res.render('article', { article, currentPage: 'blog' });
+            // Make sure we're passing complete article data
+            res.render('article', { 
+                article: article, 
+                currentPage: 'blog' 
+            });
         } else {
             res.status(404).send('<h2>Article not found</h2><a href="/blog">Back to Blog</a>');
         }

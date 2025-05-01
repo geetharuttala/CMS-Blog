@@ -1,545 +1,1198 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to CMS Blog</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMS Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://db.onlinewebfonts.com/c/8893daa36c97912a96101d50ea559d27?family=Brigends+Expanded"
+      rel="stylesheet"
+    />
     <style>
-        /* Modern Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--secondary-color) 0%, #1a2639 100%);
-            color: white;
-            padding: 6rem 2rem;
-            text-align: center;
-            border-radius: 0;
-            margin-bottom: 4rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      /* Reset and base styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #fff;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 10px 20px;
+        width: 100%;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* Header */
+      .header {
+        padding: 20px 0;
+        background-color: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .logo a {
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: #1c1b1f;
+      }
+
+      .nav ul {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+      }
+
+      .nav a {
+        font-weight: 500;
+        color: #333333;
+        text-decoration: none;
+        padding: 8px 12px;
+        transition: color 0.3s;
+      }
+
+      .nav a:hover,
+      .nav-links a.active {
+        color: #e63b19;
+      }
+
+      /* Hero section */
+      .hero {
+        background-color: #f5b694;
+        border-radius: 20px;
+        margin: 0 40px 45px 40px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .hero-content {
+        width: 100%;
+        max-width: 60%;
+        align-items: center;
+      }
+
+      .hero h1 {
+        font-family: "Brigends Expanded", sans-serif;
+        font-weight: normal;
+        font-size: 4.2rem;
+        color: white;
+        margin-bottom: 20px;
+        line-height: 1.2;
+        min-height: 5rem; /* Ensures consistent height during typing */
+      }
+
+      /* Typing cursor effect */
+      .typing-cursor {
+        display: inline-block;
+        width: 3px;
+        height: 1em;
+        background-color: white;
+        margin-left: 2px;
+        animation: blink 0.7s infinite;
+        vertical-align: text-bottom;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
         }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -100px;
-            right: -100px;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            z-index: 1;
+        50% {
+          opacity: 0;
         }
-        
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            left: -50px;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            z-index: 1;
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
+      }
+
+      /* Hidden element */
+      .hidden {
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+      }
+
+      /* Fade in animation */
+      .fade-in {
+        opacity: 1;
+      }
+
+      .hero p {
+        font-family: "Poppins", sans-serif;
+        font-size: 18px;
+        color: white;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+
+      .hero-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 30px 20px 90px;
+      }
+
+      .hero-image {
+        position: relative;
+        width: 45%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .typewriter-image {
+        object-fit: cover;
+        position: relative;
+      }
+
+      /* Latest articles section */
+      .latest-articles {
+        padding: 60px 0;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+      }
+
+      .section-header h2 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #333;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: 100px;
+        font-weight: 600;
+        text-align: center;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background-color: #e63b19;
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background-color: #d22f0f;
+      }
+
+      .articles-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 30px;
+      }
+
+      /* Enhanced article card hover styles */
+      .article-card {
+        background-color: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        position: relative;
+        top: 0;
+        cursor: pointer;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .article-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .article-image {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .article-image::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0);
+      }
+
+      .article-card:hover .article-image::after {
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      .article-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+
+      .article-card:hover .article-image img {
+        transform: scale(1.08);
+      }
+
+      .article-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+
+      .article-content h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        line-height: 1.6;
+      }
+
+      .article-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .author {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .author-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .author-icon svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .author-info p {
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      .author-name {
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .publish-date {
+        font-size: 12px;
+        color: #666;
+      }
+
+      .article-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .action-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s;
+      }
+
+      .action-icon:hover {
+        background-color: #e9e9e9;
+      }
+
+      .action-icon svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .no-articles {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 40px;
+        background-color: #f9f9f9;
+        border-radius: 16px;
+      }
+
+      /* Add article CTA section */
+      .add-article-cta {
+        padding: 60px 0;
+      }
+
+      .add-article-content {
+        background-color: #7abfc4;
+        border-radius: 16px;
+        padding: 60px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+        background-image: url("/images/wavy-pattern.png");
+        background-size: fill;
+        background-position: center;
+        min-height: 300px;
+      }
+
+      .add-article-content h2 {
+        font-family: "Brigends Expanded", sans-serif;
+        font-size: 4rem;
+        font-weight: normal;
+        margin-bottom: 20px;
+        color: #fff;
+        text-align: center;
+        letter-spacing: 2px;
+      }
+
+      .btn-cta {
+        background-color: #e63b19;
+        color: #fff;
+        padding: 16px 32px;
+        border-radius: 100px;
+        font-weight: 600;
+        display: inline-block;
+        font-size: 18px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-cta:hover {
+        background-color: #d22f0f;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Why choose section */
+      .why-choose {
+        padding: 80px 0;
+        background-color: #fafafa;
+      }
+
+      .section-title {
+        font-size: 32px;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 60px;
+        color: #333;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+      }
+
+      .feature-card {
+        background-color: #fff;
+        border-radius: 16px;
+        padding: 40px 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-card:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, #e63b19, transparent);
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+      }
+
+      .feature-card:hover:after {
+        transform: scaleX(1);
+      }
+
+      .feature-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background-color: #fef0ec;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 25px;
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover .feature-icon {
+        background-color: #fdd7cc;
+        transform: scale(1.1);
+      }
+
+      .feature-icon svg {
+        width: 32px;
+        height: 32px;
+        color: #e63b19;
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover .feature-icon svg {
+        transform: rotate(10deg);
+      }
+
+      .feature-content {
+        width: 100%;
+      }
+
+      .feature-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 15px;
+        transition: color 0.3s ease;
+      }
+
+      .feature-card:hover .feature-title {
+        color: #e63b19;
+      }
+
+      .feature-description {
+        font-size: 16px;
+        font-weight: 400;
+        color: #666;
+        line-height: 1.6;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: #f5b694;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+      }
+
+      /* SVG Icons */
+      .user-icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .share-icon {
+        width: 16px;
+        height: 16px;
+      }
+
+      /* Shapes for CTA section */
+      .shapes-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .shape {
+        display: inline-block;
+      }
+
+      .shape-rect {
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        background-color: #1c7293;
+        opacity: 0.8;
+      }
+
+      .shape-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #fbb99e;
+        opacity: 0.8;
+      }
+
+      .shape-pill {
+        width: 80px;
+        height: 40px;
+        border-radius: 20px;
+        background-color: #e63b19;
+        opacity: 0.5;
+      }
+
+      /* Enhanced Responsive styles */
+      @media (max-width: 1200px) {
         .hero h1 {
-            color: white;
-            border-bottom: none;
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          font-size: 3.5rem;
         }
-        
+
+        .add-article-content h2 {
+          font-size: 3.5rem;
+        }
+      }
+
+      @media (max-width: 992px) {
+        .hero h1 {
+          font-size: 2.8rem;
+        }
+
+        .hero-container {
+          flex-direction: column;
+          padding: 40px 30px;
+          gap: 30px;
+        }
+
+        .hero-content {
+          max-width: 100%;
+          text-align: center;
+        }
+
+        .hero-image {
+          width: 80%;
+          max-width: 400px;
+        }
+
+        .add-article-content h2 {
+          font-size: 3rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 10px 15px;
+        }
+
+        .hero {
+          margin: 0 10px 30px 10px;
+        }
+
+        .section-header {
+          flex-direction: column;
+          gap: 20px;
+          align-items: flex-start;
+        }
+
+        .articles-grid {
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+
+        .hero-container {
+          padding: 30px 20px;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+          min-height: 3rem;
+        }
+
         .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            opacity: 0.9;
-            line-height: 1.7;
+          font-size: 16px;
         }
-        
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .cta-buttons .btn {
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-        
-        .cta-buttons .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.4s ease;
-            z-index: -1;
-        }
-        
-        .cta-buttons .btn:hover::before {
-            left: 0;
-        }
-        
-        .cta-buttons .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* Section Headers */
-        h2.section-title {
-            font-size: 2.2rem;
-            text-align: center;
-            margin-bottom: 2.5rem;
-            position: relative;
-            padding-bottom: 1rem;
-        }
-        
-        h2.section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: var(--primary-color);
-            border-radius: 2px;
-        }
-        
-        /* Horizontal Featured Cards */
-        .featured-articles {
-            margin-bottom: 5rem;
-        }
-        
-        .horizontal-card-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .horizontal-card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: row;
-            height: 240px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .horizontal-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .horizontal-card-image {
-            width: 40%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .horizontal-card-content {
-            width: 60%;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .horizontal-card h3 {
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
-            color: var(--secondary-color);
-        }
-        
-        .horizontal-card-meta {
-            display: flex;
-            justify-content: space-between;
-            color: #666;
-            margin-bottom: 1.2rem;
-            font-size: 0.95rem;
-        }
-        
-        .horizontal-card-description {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #555;
-            margin-bottom: 1.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .read-more-arrow {
-            margin-top: auto;
-            font-weight: 600;
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            transition: transform 0.3s ease;
-        }
-        
-        .read-more-arrow::after {
-            content: '→';
-            display: inline-block;
-            margin-left: 0.5rem;
-            transition: transform 0.3s ease;
-        }
-        
-        .horizontal-card:hover .read-more-arrow::after {
-            transform: translateX(5px);
-        }
-        
-        /* View All Button */
-        .view-all-container {
-            text-align: center;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .view-all-btn {
-            display: inline-block;
-            padding: 0.8rem 2rem;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .view-all-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-            background-color: var(--secondary-color);
-        }
-        
 
-        /* Features Section */
-        .features-section {
-            padding: 4rem 0;
-            background-color: #f9f9f9;
-            border-radius: var(--border-radius);
-            margin-bottom: 4rem;
+        .add-article-content {
+          padding: 40px 20px;
         }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            padding: 0 2rem;
+
+        .add-article-content h2 {
+          font-size: 2.5rem;
         }
-        
-        .feature {
-            background-color: white;
-            padding: 2.5rem 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
-            text-align: center;
-            transition: all 0.3s ease;
-            border-bottom: 4px solid transparent;
+
+        .feature-card {
+          padding: 30px 20px;
         }
-        
-        .feature:hover {
-            transform: translateY(-10px);
-            border-bottom: 4px solid var(--primary-color);
+      }
+
+      @media (max-width: 576px) {
+        .header-container {
+          flex-direction: column;
+          gap: 15px;
         }
-        
-        .feature-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(52, 152, 219, 0.1);
-            border-radius: 50%;
-            color: var(--primary-color);
+
+        .nav ul {
+          gap: 10px;
+          justify-content: center;
         }
-        
-        .feature-icon svg {
-            width: 40px;
-            height: 40px;
+
+        .hero {
+          border-radius: 10px;
+          margin: 0 5px 20px 5px;
         }
-        
-        .feature h3 {
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            color: var(--secondary-color);
+
+        .hero h1 {
+          font-size: 2rem;
         }
-        
-        .feature p {
-            color: #666;
-            line-height: 1.6;
+
+        .hero p {
+          font-size: 14px;
         }
-        
-        /* Responsive Design */        
-        @media (max-width: 992px) {
-            .features {
-                grid-template-columns: repeat(3, 1fr); /* Keep 3 columns on medium screens */
-            }
-            
-            .horizontal-card {
-                height: auto;
-                flex-direction: column;
-            }
-            
-            .horizontal-card-image {
-                width: 100%;
-                height: 200px;
-            }
-            
-            .horizontal-card-content {
-                width: 100%;
-            }
+
+        .article-meta {
+          flex-direction: column;
+          align-items: flex-start;
         }
-        
-        @media (max-width: 768px) {
-            .hero {
-                padding: 4rem 1.5rem;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .cta-buttons .btn {
-                width: 100%;
-                max-width: 300px;
-                text-align: center;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
+
+        .section-header h2,
+        .section-title {
+          font-size: 24px;
         }
-        
-        /* Animation Classes */
-        .fade-in {
-            animation: fadeIn 1s ease forwards;
+
+        .add-article-content h2 {
+          font-size: 2rem;
         }
-        
-        .slide-up {
-            animation: slideUp 0.8s ease forwards;
+
+        .btn-cta {
+          padding: 12px 24px;
+          font-size: 16px;
         }
-        
-        .slide-in-right {
-            animation: slideInRight 0.8s ease forwards;
+
+        .features-grid {
+          grid-template-columns: 1fr;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+      }
+
+      @media (max-width: 400px) {
+        .hero h1 {
+          font-size: 1.7rem;
         }
-        
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .hero-container {
+          padding: 20px 15px;
         }
-        
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+
+        .btn {
+          padding: 10px 20px;
+          font-size: 14px;
         }
+
+        .add-article-content {
+          min-height: 220px;
+          padding: 30px 15px;
+        }
+
+        .add-article-content h2 {
+          font-size: 1.7rem;
+          margin-bottom: 15px;
+        }
+      }
+
+      /* Animation Classes */
+      .slide-up {
+        opacity: 0;
+        transform: translateY(70px);
+        transition: all 1s ease-out;
+        will-change: transform, opacity;
+      }
+
+      .slide-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Staggered animations for grid items */
+      .articles-grid .article-card,
+      .features-grid .feature-card {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        will-change: transform, opacity;
+      }
+
+      .articles-grid.visible .article-card:nth-child(1),
+      .features-grid.visible .feature-card:nth-child(1) {
+        transition-delay: 0.1s;
+      }
+
+      .articles-grid.visible .article-card:nth-child(2),
+      .features-grid.visible .feature-card:nth-child(2) {
+        transition-delay: 0.2s;
+      }
+
+      .articles-grid.visible .article-card:nth-child(3),
+      .features-grid.visible .feature-card:nth-child(3) {
+        transition-delay: 0.3s;
+      }
+
+      .articles-grid.visible .article-card:nth-child(n + 4) {
+        transition-delay: 0.4s;
+      }
+
+      .articles-grid.visible .article-card,
+      .features-grid.visible .feature-card {
+        opacity: 1;
+        transform: translateY(0);
+      }
     </style>
-</head>
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">CMS Blog</a>
-            <ul class="nav-links">
-                <li><a href="/" class="<%= (currentPage === 'home') ? 'active' : '' %>">Home</a></li>
-                <li><a href="/blog" class="<%= (currentPage === 'blog') ? 'active' : '' %>">Blog</a></li>
-                <li><a href="/add-article" class="<%= (currentPage === 'add-article') ? 'active' : '' %>">Add Article</a></li>
-            </ul>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header-container">
+        <div class="logo">
+          <a href="/">CMS Blog</a>
         </div>
-    </nav>
+        <nav class="nav">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/articles/new">Add article</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
-    <!-- Hero Section -->
     <section class="hero">
+      <div class="container hero-container">
         <div class="hero-content">
-            <h1 class="animate__animated animate__fadeIn">Welcome to CMS Blog</h1>
-            <p class="animate__animated animate__fadeIn animate__delay-1s">A modern content management system for creating and sharing your articles, stories, and ideas with the world.</p>
-            <div class="cta-buttons animate__animated animate__fadeIn animate__delay-1s">
-                <a href="/blog" class="btn">Explore Articles</a>
-                <a href="/add-article" class="btn btn-secondary">Start Writing</a>
-            </div>
+          <h1 id="typing-heading"></h1>
+          <p id="hero-paragraph" class="hidden">
+            A modern content management system for creating and sharing your
+            articles, stories, and ideas with the world.
+          </p>
         </div>
+        <div class="hero-image">
+          <div class="typewriter-image">
+            <img src="/images/typewriter.jpg" alt="Typewriter" />
+          </div>
+        </div>
+      </div>
     </section>
 
-    <div class="container">
-        <!-- Featured Articles Section -->
-        <section class="featured-articles">
-            <h2 class="section-title slide-up">Featured Articles</h2>
-            
-            <% 
-            // Filter only featured articles
-            const filteredFeaturedArticles = featuredArticles ? featuredArticles.filter(article => article.isFeatured) : [];
-            %>
-            
-            <% if (filteredFeaturedArticles && filteredFeaturedArticles.length > 0) { %>
-                <div class="horizontal-card-container">
-                    <% filteredFeaturedArticles.forEach((article, index) => { %>
-                        <div class="horizontal-card slide-up" data-delay="<%= 0.2 * index %>" data-article-id="<%= article.id %>">
-                            <img src="<%= article.image %>" alt="<%= article.title %>" class="horizontal-card-image" />
-                            <div class="horizontal-card-content">
-                                <h3><%= article.title %></h3>
-                                <div class="horizontal-card-meta">
-                                    <span><strong>By:</strong> <%= article.author %></span>
-                                    <span><strong>Date:</strong> <%= formatDate(article.date) %></span>                                </div>
-                                <div class="horizontal-card-description">
-                                    <% if (article.content) { %>
-                                        <%= article.content.length > 150 ? article.content.substring(0, 150) + '...' : article.content %>
-                                    <% } %>
-                                </div>
-                                <span class="read-more-arrow">Read Article</span>
-                            </div>
-                        </div>
-                    <% }) %>
-                </div>
-                
-                <!-- View All Articles Button -->
-                <div class="view-all-container slide-up">
-                    <a href="/blog" class="view-all-btn">View All Articles</a>
-                </div>
-                
-            <% } else { %>
-                <div style="text-align: center; margin: 3rem 0;" class="slide-up">
-                    <p>No featured articles yet. Start by creating your first article!</p>
-                    <a href="/add-article" class="btn">Create Article</a>
-                </div>
-            <% } %>
-        </section>
+    <section class="latest-articles">
+      <div class="container">
+        <div class="section-header">
+          <h2>Featured articles</h2>
+          <a href="/blog" class="btn btn-primary">View all articles</a>
+        </div>
 
-        <!-- Features Section -->
-        <section class="features-section slide-up">
-            <h2 class="section-title">Why Choose CMS Blog</h2>
-            <div class="features">
-                <div class="feature slide-in-right" style="animation-delay: 0.1s;">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                    </div>
-                    <h3>Easy Content Creation</h3>
-                    <p>Create beautiful articles with our simple and intuitive article editor designed for writers of all skill levels.</p>
-                </div>
-                <div class="feature slide-in-right" style="animation-delay: 0.3s;">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                        </svg>
-                    </div>
-                    <h3>Responsive Design</h3>
-                    <p>Articles look stunning on all devices, from desktops and laptops to tablets and smartphones.</p>
-                </div>
-                <div class="feature slide-in-right" style="animation-delay: 0.5s;">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                        </svg>
-                    </div>
-                    <h3>Social Sharing</h3>
-                    <p>Easily share your articles across all major social media platforms with integrated sharing tools.</p>
-                </div>
+        <!-- Alternative fix directly in index.ejs -->
+
+        <!-- Replace your current articles-grid section with this updated one -->
+        <!-- Fixed article cards section with proper links -->
+        <div class="articles-grid">
+          <% if (typeof articles !== 'undefined' && articles && articles.length
+          > 0) { %> <% articles.forEach(article => { %>
+          <div class="article-card">
+            <div class="article-image">
+              <!-- Add default image fallback -->
+              <img
+                src="<%= article.image || '/images/default-article.jpg' %>"
+                alt="<%= article.title %>"
+              />
             </div>
-        </section>
-    </div>
+            <div class="article-content">
+              <!-- Fixed href to correctly link to the article page -->
+              <h3>
+                <a href="/articles/<%= article._id %>"><%= article.title %></a>
+              </h3>
+              <!-- Make the entire card clickable -->
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  const articleCards =
+                    document.querySelectorAll(".article-card");
+                  articleCards.forEach((card) => {
+                    const link = card
+                      .querySelector("h3 a")
+                      .getAttribute("href");
+                    card.addEventListener("click", function (e) {
+                      // Only navigate if the click wasn't on another link or action
+                      if (!e.target.closest("a:not(h3 a)")) {
+                        window.location.href = link;
+                      }
+                    });
+                    card.style.cursor = "pointer";
+                  });
+                });
+              </script>
+              <div class="article-meta">
+                <div class="author">
+                  <div class="author-icon">
+                    <svg
+                      class="user-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+                        stroke="#333333"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M6 21V19C6 17.9391 6.42143 16.9217 7.17157 16.1716C7.92172 15.4214 8.93913 15 10 15H14C15.0609 15 16.0783 15.4214 16.8284 16.1716C17.5786 16.9217 18 17.9391 18 19V21"
+                        stroke="#333333"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <div class="author-info">
+                    <p class="author-name">
+                      <%= article.author || 'Unknown Author' %>
+                    </p>
+                    <p class="publish-date">
+                      <% let dateStr = 'Invalid Date'; try { const date = new
+                      Date(article.date); if (!isNaN(date.getTime())) { dateStr
+                      = date.toLocaleDateString('en-US', { day: 'numeric',
+                      month: 'long', year: 'numeric' }); } } catch (e) { /* Keep
+                      the default value if error occurs */ } %> <%= dateStr %>
+                    </p>
+                  </div>
+                </div>
+                <div class="article-actions">
+                  <!-- LinkedIn Share (New) -->
+                  <a
+                    href="javascript:void(0);"
+                    onclick="shareOnLinkedIn('<%= article.title %>', '/articles/<%= article._id %>')"
+                    class="action-icon"
+                    title="Share on LinkedIn"
+                  >
+                    <svg
+                      class="share-icon"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0 1.146C0 0.513 0.526 0 1.175 0h13.65C15.474 0 16 0.513 16 1.146v13.708c0 0.633-0.526 1.146-1.175 1.146H1.175C0.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c0.837 0 1.358-0.554 1.358-1.248c-0.015-0.709-0.52-1.248-1.342-1.248c-0.822 0-1.359 0.54-1.359 1.248c0 0.694 0.521 1.248 1.327 1.248h0.016zm4.908 8.212V9.359c0-0.216 0.016-0.432 0.08-0.586c0.173-0.431 0.568-0.878 1.232-0.878c0.869 0 1.216 0.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252c-1.274 0-1.845 0.7-2.165 1.193v0.025h-0.016c0.005-0.008 0.01-0.017 0.016-0.025V6.169h-2.4c0.03 0.678 0 7.225 0 7.225h2.4z"
+                        fill="#333333"
+                      />
+                    </svg>
+                  </a>
+                  <!-- Twitter/X Share -->
+                  <a
+                    href="javascript:void(0);"
+                    onclick="shareOnTwitter('<%= article.title %>', '/articles/<%= article._id %>')"
+                    class="action-icon"
+                    title="Share on Twitter"
+                  >
+                    <svg
+                      class="share-icon"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12.6667 2H15L9.66667 8L15.6667 15.3333H11L7.33333 10.6667L3.33333 15.3333H1L6.66667 9L0.333333 2H5.33333L8.66667 6.33333L12.6667 2ZM11.6667 14L13.6667 11.3333L5.66667 3H3.66667L11.6667 14Z"
+                        fill="#333333"
+                      />
+                    </svg>
+                  </a>
+                  <!-- Facebook Share -->
+                  <a
+                    href="javascript:void(0);"
+                    onclick="shareOnFacebook('/articles/<%= article._id %>')"
+                    class="action-icon"
+                    title="Share on Facebook"
+                  >
+                    <svg
+                      class="share-icon"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 11.993 2.92547 15.3027 6.75 15.9028V10.3125H4.71875V8H6.75V6.2375C6.75 4.2325 7.94438 3.125 9.77172 3.125C10.6467 3.125 11.5625 3.28125 11.5625 3.28125V5.25H10.5538C9.56 5.25 9.25 5.86672 9.25 6.5V8H11.4688L11.1141 10.3125H9.25V15.9028C13.0745 15.3027 16 11.993 16 8Z"
+                        fill="#333333"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% }); %> <% } else { %>
+          <div class="no-articles">
+            <p>No articles found. Be the first to add one!</p>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </section>
 
-    <footer>
-        <p>&copy; <%= new Date().getFullYear() %> CMS Blog. All rights reserved.</p>
+    <section class="add-article-cta">
+      <div class="container">
+        <div class="add-article-content">
+          <h2>Add articles</h2>
+          <a href="/articles/new" class="btn btn-cta">Add new article</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="why-choose">
+      <div class="container">
+        <h2 class="section-title">Why choose CMS Blog?</h2>
+
+        <div class="features-grid">
+          <!-- Feature 1 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                ></path>
+                <path
+                  d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                ></path>
+              </svg>
+            </div>
+            <div class="feature-content">
+              <h3 class="feature-title">Intuitive Editor</h3>
+              <p class="feature-description">
+                Create beautiful articles with our simple and intuitive article
+                editor designed for writers of all skill levels.
+              </p>
+            </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+            </div>
+            <div class="feature-content">
+              <h3 class="feature-title">Responsive Design</h3>
+              <p class="feature-description">
+                Articles look stunning on all devices, from desktops and laptops
+                to tablets and smartphones.
+              </p>
+            </div>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+            </div>
+            <div class="feature-content">
+              <h3 class="feature-title">Easy Sharing</h3>
+              <p class="feature-description">
+                Easily share your articles across all major social media
+                platforms with integrated sharing tools.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p>
+          &copy; <%= new Date().getFullYear() %> CMS Blog. All rights reserved.
+        </p>
+      </div>
     </footer>
 
     <script>
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-        
-        // Animate sections when they come into view
-        document.querySelectorAll('.slide-up, .slide-in-right').forEach(el => {
-            el.style.opacity = 0;
-            el.style.transform = el.classList.contains('slide-up') ? 'translateY(30px)' : 'translateX(30px)';
-            observer.observe(el);
-        });
-        
-        // Make horizontal cards clickable
-        document.querySelectorAll('.horizontal-card').forEach(card => {
-            card.addEventListener('click', function(e) {
-                const articleId = this.getAttribute('data-article-id');
-                window.location.href = `/article/${articleId}`;
-            });
+      // Twitter sharing function
+      function shareOnTwitter(title, url) {
+        // Get the full URL by combining the base URL with the article path
+        const fullUrl = window.location.origin + url;
+        // Create Twitter sharing URL with title and link
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+          title
+        )}&url=${encodeURIComponent(fullUrl)}`;
+        // Open in a new window
+        window.open(twitterUrl, "_blank", "width=550,height=420");
+        return false;
+      }
+
+      // Facebook sharing function
+      function shareOnFacebook(url) {
+        // Get the full URL by combining the base URL with the article path
+        const fullUrl = window.location.origin + url;
+        // Create Facebook sharing URL
+        const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+          fullUrl
+        )}`;
+        // Open in a new window
+        window.open(facebookUrl, "_blank", "width=550,height=420");
+        return false;
+      }
+
+      // LinkedIn sharing function
+      function shareOnLinkedIn(title, url) {
+        // Get the full URL by combining the base URL with the article path
+        const fullUrl = window.location.origin + url;
+        // Create LinkedIn sharing URL with title and link
+        const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+          fullUrl
+        )}`;
+        // Open in a new window
+        window.open(linkedInUrl, "_blank", "width=550,height=420");
+        return false;
+      }
+
+      // Typing effect for hero heading
+      document.addEventListener("DOMContentLoaded", function () {
+        const headingElement = document.getElementById("typing-heading");
+        const paragraphElement = document.getElementById("hero-paragraph");
+        const textToType = "Build your digital voice!";
+        let charIndex = 0;
+        let typingInterval;
+
+        // Create cursor element
+        const cursor = document.createElement("span");
+        cursor.className = "typing-cursor";
+        headingElement.appendChild(cursor);
+
+        // Function to type one character
+        function typeNextChar() {
+          if (charIndex < textToType.length) {
+            // Insert the next character before the cursor
+            headingElement.insertBefore(
+              document.createTextNode(textToType.charAt(charIndex)),
+              cursor
+            );
+            charIndex++;
+          } else {
+            // Typing complete, clear the interval
+            clearInterval(typingInterval);
+
+            // Show paragraph with fade-in effect after typing is complete
+            setTimeout(() => {
+              paragraphElement.classList.add("fade-in");
+            }, 400); // Small delay after typing completes
+          }
+        }
+
+        // Start typing with a delay to allow page to load
+        setTimeout(() => {
+          typingInterval = setInterval(typeNextChar, 100); // Adjust speed (milliseconds) as needed
+        }, 500);
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Elements to animate
+        const elementsToAnimate = [
+          document.querySelector(".hero"),
+          document.querySelector(".latest-articles .section-header"),
+          document.querySelector(".articles-grid"),
+          document.querySelector(".add-article-content"),
+          document.querySelector(".why-choose .section-title"),
+          document.querySelector(".features-grid"),
+        ];
+
+        // Add slide-up class to all animation elements
+        elementsToAnimate.forEach((element) => {
+          if (element) {
+            element.classList.add("slide-up");
+          }
         });
 
-        document.querySelectorAll('.horizontal-card').forEach(card => {
-            const delay = card.getAttribute('data-delay');
-            if (delay) {
-                card.style.animationDelay = delay + 's';
+        // Check if element is in viewport and add visible class
+        function checkScroll() {
+          elementsToAnimate.forEach((element) => {
+            if (!element) return;
+
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150; // Adjust this value to change when the animation triggers
+
+            if (elementTop < window.innerHeight - elementVisible) {
+              element.classList.add("visible");
             }
-        });
+          });
+        }
+
+        // Initial check on page load
+        checkScroll();
+
+        // Check on scroll
+        window.addEventListener("scroll", checkScroll);
+      });
     </script>
-</body>
+  </body>
 </html>

@@ -2,7 +2,7 @@
 
 A minimal yet functional **Content Management System (CMS)** built with **Node.js, Express, MongoDB**, and **EJS**. This app allows users to add, view, and explore blog articles with a clean and responsive interface.
 
-🔗 **Live Site**: [https://cms-blog-i8mu.onrender.com](https://cms-blog-i8mu.onrender.com)
+🔗 **Live Site**: [CMS-Blog](https://cms-blog-i8mu.onrender.com/)
 
 ---
 

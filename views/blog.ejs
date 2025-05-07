@@ -6,15 +6,29 @@
     <title>Blog Articles | CMS Blog</title>
     <link rel="stylesheet" href="/styles.css" />
     <style>
-      /* Override grid layout to show exactly 3 cards per row */
+      /* Base layout and container styles */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      /* Section headings with centered style */
+      .section-heading {
+        text-align: center;
+        margin: 2rem 0;
+        font-size: 1.8rem;
+        color: #333;
+      }
+
+      /* Modern card layout */
       .articles-container {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
-        margin-bottom: 3rem;
+        margin-bottom: 5rem;
       }
 
-      /* Adjust for responsiveness */
       @media (max-width: 992px) {
         .articles-container {
           grid-template-columns: repeat(2, 1fr);
@@ -27,30 +41,175 @@
         }
       }
 
-      .card-actions {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 1rem;
-        align-items: center;
+      /* Card styling */
+      .card {
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        background-color: #fff;
         position: relative;
-        z-index: 10; /* Ensure buttons are above the card clickable area */
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
 
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .card-content {
+        padding: 1.5rem;
+      }
+
+      .card h2 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 18px;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      .card-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        margin-bottom: 0;
+      }
+
+      /* Author information styling */
+      .author-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .author-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+        color: #666;
+      }
+
+      .author-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .author-name {
+        font-weight: 500;
+        margin: 0;
+        color: #333;
+      }
+
+      .publish-date {
+        font-size: 0.9rem;
+        color: #666;
+        margin: 0;
+      }
+
+      /* Social sharing icons */
+      .social-icons {
+        display: flex;
+        gap: 0.75rem;
+      }
+
+      .social-icon {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        color: #555;
+        transition: color 0.2s;
+      }
+
+      .social-icon:hover {
+        color: var(--primary-color, #3498db);
+      }
+
+      /* Clickable overlay */
+      .card-clickable-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 5;
+      }
+
+      /* Admin section styling */
+      .admin-section {
+        margin: 3rem auto;
+        background-color: #fff;
+        padding: 0;
+      }
+
+      .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .admin-table th,
+      .admin-table td {
+        padding: 1rem;
+        text-align: left;
+        border: 1px solid #e6e6e6;
+      }
+
+      .admin-table th {
+        background-color: #cae5e7;
+        font-weight: 600;
+        color: #555;
+      }
+
+      .admin-table tr:hover {
+        background-color: #f4f4f4;
+      }
+
+      /* Action buttons styling */
+      .admin-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .edit-btn,
       .delete-btn {
-        background-color: var(--accent-color);
-        color: white;
         border: none;
-        padding: 0.5rem 1rem;
+        font-family: "Poppins", sans-serif;
+        padding: 0.3rem 1rem;
         border-radius: 4px;
         cursor: pointer;
         font-size: 0.9rem;
         transition: background-color 0.3s;
       }
 
+      .edit-btn {
+        background-color: var(--primary-color, #3498db);
+        color: white;
+      }
+
+      .edit-btn:hover {
+        background-color: #7abfc4;
+      }
+
+      .delete-btn {
+        background-color: var(--accent-color, #e74c3c);
+        color: white;
+      }
+
       .delete-btn:hover {
         background-color: #c0392b;
       }
 
+      /* Confirmation modal styling */
       .confirmation-modal {
         display: none;
         position: fixed;
@@ -90,98 +249,251 @@
 
       .cancel-btn {
         background-color: #f4f4f4;
-        color: var(--dark-gray);
+        color: #555;
       }
 
       .confirm-btn {
-        background-color: var(--accent-color);
+        background-color: var(--accent-color, #e74c3c);
         color: white;
       }
 
-      /* Make the entire card clickable */
-      .card {
-        position: relative;
-        cursor: pointer;
+      /* Message for no articles */
+      .no-articles {
+        text-align: center;
+        margin: 3rem 0;
+        padding: 2rem;
+        background-color: #f9f9f9;
+        border-radius: 8px;
       }
 
-      .card-clickable-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 5;
+      /* Load more button styling */
+      .load-more-container {
+        text-align: center;
+        margin: 2rem 0;
+      }
+
+      .btn {
+        background-color: var(--primary-color, #3498db);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .btn:hover {
+        background-color: #2980b9;
+      }
+
+      /* Add article CTA section */
+      .add-article-cta {
+        padding: 60px 0;
+      }
+
+      .add-article-content {
+        background-color: #7abfc4;
+        border-radius: 16px;
+        padding: 60px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+        background-image: url("/images/wavy-pattern.png");
+        background-size: fill;
+        background-position: center;
+        min-height: 300px;
+      }
+
+      .add-article-content h2 {
+        font-family: "Brigends Expanded", sans-serif;
+        font-size: 4rem;
+        font-weight: normal;
+        margin-bottom: 20px;
+        color: #fff;
+        text-align: center;
+        letter-spacing: 2px;
+      }
+
+      .btn-cta {
+        background-color: #e63b19;
+        color: #fff;
+        padding: 16px 32px;
+        border-radius: 100px;
+        font-weight: 600;
+        display: inline-block;
+        font-size: 18px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-cta:hover {
+        background-color: #d22f0f;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 576px) {
+        .card-meta {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+
+        .section-heading {
+          font-size: 1.5rem;
+        }
+      }
+
+      /* Animation styling */
+      .animate-section {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+
+      .animate-section.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Adds a staggered effect for card animations */
+      .card.animate-section {
+        transition-delay: calc(var(--item-index) * 0.1s);
       }
     </style>
   </head>
   <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-      <div class="nav-container">
-        <a href="/" class="logo">CMS Blog</a>
-        <ul class="nav-links">
-          <li>
-            <a href="/" class="<%= (currentPage === 'home') ? 'active' : '' %>"
-              >Home</a
-            >
-          </li>
-          <li>
-            <a
-              href="/blog"
-              class="<%= (currentPage === 'blog') ? 'active' : '' %>"
-              >Blog</a
-            >
-          </li>
-          <li>
-            <a
-              href="/add-article"
-              class="<%= (currentPage === 'add-article') ? 'active' : '' %>"
-              >Add Article</a
-            >
-          </li>
-        </ul>
+    <header class="header">
+      <div class="container header-container">
+        <div class="logo">
+          <a href="/">CMS Blog</a>
+        </div>
+        <nav class="nav">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/articles/new">Add article</a></li>
+          </ul>
+        </nav>
       </div>
-    </nav>
+    </header>
 
     <div class="container">
-      <div class="blog-header">
-        <h1>Latest Articles</h1>
+      <div class="blog-header animate-section">
+        <h1>Articles</h1>
       </div>
 
       <% if (articles.length === 0) { %>
-      <div style="text-align: center; margin: 3rem 0">
+      <div class="no-articles animate-section">
         <p>No articles published yet.</p>
-        <a href="/add-article" class="btn">Create Your First Article</a>
+        <a href="/articles/new" class="btn">Create Your First Article</a>
       </div>
       <% } else { %>
       <div class="articles-container">
-        <% articles.forEach(article => { %>
-        <div class="card" data-article-id="<%= article.id %>">
+        <% articles.forEach((article, index) => { %>
+        <div
+          class="card animate-section"
+          data-article-id="<%= article.id %>"
+          style="--item-index: <%= index %>"
+        >
           <!-- Clickable overlay for the entire card -->
           <div class="card-clickable-overlay"></div>
           <img
-            src="<%= article.image %>"
+            src="<%= article.image || '/images/default-article.jpg' %>"
             alt="<%= article.title %>"
             class="card-image"
           />
           <div class="card-content">
             <h2><%= article.title %></h2>
             <div class="card-meta">
-              <span><strong>By:</strong> <%= article.author %></span>
-              <span
-                ><strong>Date:</strong> <%= formatDate(article.date) %></span
-              >
-            </div>
-            <div class="card-actions">
-              <a href="/article/<%= article.id %>" class="read-more"
-                >Read More</a
-              >
-              <button
-                class="delete-btn"
-                onclick="showDeleteConfirmation('<%= article.id %>', '<%= article.title %>')"
-              >
-                Delete
-              </button>
+              <div class="author-container">
+                <div class="author-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M6 21V19C6 17.9391 6.42143 16.9217 7.17157 16.1716C7.92172 15.4214 8.93913 15 10 15H14C15.0609 15 16.0783 15.4214 16.8284 16.1716C17.5786 16.9217 18 17.9391 18 19V21"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div class="author-info">
+                  <p class="author-name">
+                    <%= article.author || 'Unknown Author' %>
+                  </p>
+                  <p class="publish-date"><%= formatDate(article.date) %></p>
+                </div>
+              </div>
+              <div class="social-icons">
+                <!-- LinkedIn Share -->
+                <a
+                  href="javascript:void(0);"
+                  onclick="shareOnLinkedIn('<%= article.title %>', '/articles/<%= article.id %>')"
+                  class="social-icon"
+                  title="Share on LinkedIn"
+                >
+                  <svg
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0 1.146C0 0.513 0.526 0 1.175 0h13.65C15.474 0 16 0.513 16 1.146v13.708c0 0.633-0.526 1.146-1.175 1.146H1.175C0.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c0.837 0 1.358-0.554 1.358-1.248c-0.015-0.709-0.52-1.248-1.342-1.248c-0.822 0-1.359 0.54-1.359 1.248c0 0.694 0.521 1.248 1.327 1.248h0.016zm4.908 8.212V9.359c0-0.216 0.016-0.432 0.08-0.586c0.173-0.431 0.568-0.878 1.232-0.878c0.869 0 1.216 0.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252c-1.274 0-1.845 0.7-2.165 1.193v0.025h-0.016c0.005-0.008 0.01-0.017 0.016-0.025V6.169h-2.4c0.03 0.678 0 7.225 0 7.225h2.4z"
+                    />
+                  </svg>
+                </a>
+                <!-- Twitter/X Share -->
+                <a
+                  href="javascript:void(0);"
+                  onclick="shareOnTwitter('<%= article.title %>', '/articles/<%= article.id %>')"
+                  class="social-icon"
+                  title="Share on Twitter"
+                >
+                  <svg
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.6667 2H15L9.66667 8L15.6667 15.3333H11L7.33333 10.6667L3.33333 15.3333H1L6.66667 9L0.333333 2H5.33333L8.66667 6.33333L12.6667 2ZM11.6667 14L13.6667 11.3333L5.66667 3H3.66667L11.6667 14Z"
+                    />
+                  </svg>
+                </a>
+                <!-- Facebook Share -->
+                <a
+                  href="javascript:void(0);"
+                  onclick="shareOnFacebook('/articles/<%= article.id %>')"
+                  class="social-icon"
+                  title="Share on Facebook"
+                >
+                  <svg
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 11.993 2.92547 15.3027 6.75 15.9028V10.3125H4.71875V8H6.75V6.2375C6.75 4.2325 7.94438 3.125 9.77172 3.125C10.6467 3.125 11.5625 3.28125 11.5625 3.28125V5.25H10.5538C9.56 5.25 9.25 5.86672 9.25 6.5V8H11.4688L11.1141 10.3125H9.25V15.9028C13.0745 15.3027 16 11.993 16 8Z"
+                    />
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -189,10 +501,57 @@
       </div>
 
       <% if (articles.length > 6) { %>
-      <div class="load-more-container">
+      <div class="load-more-container animate-section">
         <button class="btn" id="loadMoreBtn">Load More Articles</button>
       </div>
-      <% } %> <% } %>
+      <% } %>
+
+      <!-- Admin Section with Table View -->
+      <div class="admin-section animate-section">
+        <h2 class="section-heading">Article Management</h2>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% articles.forEach(article => { %>
+            <tr>
+              <td>
+                <a href="/articles/<%= article.id %>"><%= article.title %></a>
+              </td>
+              <td><%= article.author || 'Unknown Author' %></td>
+              <td><%= formatDate(article.date) %></td>
+              <td>
+                <div class="admin-actions">
+                  <a href="/articles/edit/<%= article.id %>" class="edit-btn"
+                    >Edit</a
+                  >
+                  <button
+                    class="delete-btn"
+                    onclick="showDeleteConfirmation('<%= article.id %>', '<%= article.title %>')"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+
+      <section class="add-article-cta animate-section">
+        <div class="add-article-content">
+          <h2>Add articles</h2>
+          <a href="/articles/new" class="btn btn-cta">Add new article</a>
+        </div>
+      </section>
     </div>
 
     <!-- Delete Confirmation Modal -->
@@ -213,13 +572,40 @@
       </div>
     </div>
 
-    <footer>
-      <p>
-        &copy; <%= new Date().getFullYear() %> CMS Blog. All rights reserved.
-      </p>
+    <footer class="footer">
+      <div class="container">
+        <p>
+          &copy; <%= new Date().getFullYear() %> CMS Blog. All rights reserved.
+        </p>
+      </div>
     </footer>
 
     <script>
+      // Social sharing functions
+      function shareOnLinkedIn(title, url) {
+        const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+          window.location.origin + url
+        )}`;
+        window.open(shareUrl, "_blank");
+        event.stopPropagation();
+      }
+
+      function shareOnTwitter(title, url) {
+        const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+          title
+        )}&url=${encodeURIComponent(window.location.origin + url)}`;
+        window.open(shareUrl, "_blank");
+        event.stopPropagation();
+      }
+
+      function shareOnFacebook(url) {
+        const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+          window.location.origin + url
+        )}`;
+        window.open(shareUrl, "_blank");
+        event.stopPropagation();
+      }
+
       // Delete confirmation modal functionality
       let articleIdToDelete = null;
 
@@ -247,7 +633,7 @@
           }
         });
 
-      // Load more functionality (showing just first 6 articles initially)
+      // Load more functionality
       const articles = document.querySelectorAll(".card");
       const loadMoreBtn = document.getElementById("loadMoreBtn");
 
@@ -266,6 +652,10 @@
             i++
           ) {
             articles[i].style.display = "block";
+            // Trigger animation for newly visible articles
+            setTimeout(() => {
+              articles[i].classList.add("animate");
+            }, 10);
           }
           visibleCount += 3;
 
@@ -279,15 +669,51 @@
       // Make entire card clickable
       document.querySelectorAll(".card").forEach((card) => {
         card.addEventListener("click", function (e) {
-          // Don't redirect if clicking on the delete button or its children
-          if (e.target.closest(".delete-btn")) {
+          // Don't redirect if clicking on the social sharing icons
+          if (e.target.closest(".social-icon")) {
             return;
           }
 
           // Get the article ID and navigate to the article page
           const articleId = this.getAttribute("data-article-id");
-          window.location.href = `/article/${articleId}`;
+          window.location.href = `/articles/${articleId}`;
         });
+      });
+
+      // Scroll animation observer
+      document.addEventListener("DOMContentLoaded", function () {
+        const animateSections = document.querySelectorAll(".animate-section");
+
+        // Check if IntersectionObserver is supported
+        if ("IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                // Add animation class when element is in view
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("animate");
+                  // Once the animation is applied, we can stop observing this element
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            {
+              root: null, // viewport is used as the root
+              rootMargin: "0px 0px -50px 0px", // slightly before element enters viewport
+              threshold: 0.15, // trigger when 15% of the element is visible
+            }
+          );
+
+          // Start observing each section
+          animateSections.forEach((section) => {
+            observer.observe(section);
+          });
+        } else {
+          // Fallback for browsers that don't support IntersectionObserver
+          animateSections.forEach((section) => {
+            section.classList.add("animate");
+          });
+        }
       });
     </script>
   </body>

@@ -142,6 +142,62 @@ app.get('/articles/:id', async (req, res) => {  // Changed from /article/:id to 
     }
 });
 
+// Route to show the edit form
+app.get('/articles/edit/:id', async (req, res) => {
+    try {
+        const article = await Article.findById(req.params.id);
+        if (article) {
+            res.render('edit-form', { 
+                article: article, 
+                currentPage: 'blog' 
+            });
+        } else {
+            res.status(404).send('<h2>Article not found</h2><a href="/blog">Back to Blog</a>');
+        }
+    } catch (err) {
+        console.error('Error fetching article for edit:', err);
+        res.status(500).send('Something went wrong');
+    }
+});
+
+// Route to handle the form submission for updating an article
+app.post('/update-article/:id', upload.single('image'), async (req, res) => {
+    try {
+        const article = await Article.findById(req.params.id);
+        
+        if (!article) {
+            return res.status(404).send('<h2>Article not found</h2><a href="/blog">Back to Blog</a>');
+        }
+        
+        // Update article fields
+        article.title = req.body.title;
+        article.content = req.body.content;
+        article.author = req.body.author;
+        article.isFeatured = req.body.isFeatured === 'on';
+        article.updatedAt = new Date();
+        
+        // Handle image upload if a new image was provided
+        if (req.file) {
+            // Delete the old image if it exists
+            if (article.image) {
+                const oldImagePath = path.join(__dirname, 'public', article.image);
+                if (fs.existsSync(oldImagePath)) {
+                    fs.unlinkSync(oldImagePath);
+                }
+            }
+            
+            // Set the new image path
+            article.image = `/images/${req.file.filename}`;
+        }
+        
+        await article.save();
+        res.redirect(`/articles/${article.id}`);
+    } catch (err) {
+        console.error('Error updating article:', err);
+        res.status(500).send('Something went wrong');
+    }
+});
+
 // New route for deleting articles
 app.post('/delete-article/:id', async (req, res) => {
     try {
